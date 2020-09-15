@@ -16,7 +16,7 @@ def main():
 
 def lexicalAnalyzerTest(file):
 	comments = "!"
-	keywords = {"int", "float", "bool", "true", "false", "if", "else", "then", "endif", "while", "whileend", "do", "doend", "for", "forend", "input", "output", "and", "or", "not"}
+	keywords = {"int", "float", "bool","void", "true", "false", "if", "else", "then", "endif", "while", "whileend", "do", "doend", "for", "forend", "input", "output", "and", "or", "not"}
 	separators = {"'", "(", ")", "{", "}", "[", "]", ",", ".", ":", ";", "sp"}
 	operators = {"*","+","-","=","/",">","<","%"}
 	newStr = ""
