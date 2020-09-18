@@ -5,6 +5,7 @@ comments = "!"
 keywords = ["int", "float", "bool", "true", "false", "if", "else", "then", "endif", "while", "whileend", "do", "doend", "for", "forend", "input", "output", "and", "or", "not"]
 separators = ["'", "(", ")", "{", "[", "[", "]", ",", ".", ":", ";", "sp"]
 operators = ["*","+","-","=","/",">","<","%", "$"]
+formatters = ['\n', '\t']
 
 buffer = []
 lexedList = []
@@ -37,6 +38,8 @@ def parseBufferForOperators( aBuffer ):
 		operatorParsed = False
 
 		for operator in operators:
+			if operator == line:
+				continue
 			if operator in line:
 				buffer.remove(line)
 				operatorParsed = True
@@ -71,6 +74,8 @@ def parseBufferForSeparators( aBuffer ):
 		separatorParsed = False
 
 		for separator in separators:
+			if separator == line:
+				continue
 			if separator in line:
 				buffer.remove(line)
 				separatorParsed = True
@@ -93,6 +98,40 @@ def parseBufferForSeparators( aBuffer ):
 		if( not( separatorParsed ) ):
 			bufferIter = bufferIter + 1
 
+def parseBufferForFormatters( aBuffer ):
+	bufferIter = 0
+	while( bufferIter != len( buffer ) ):
+		#print( len( buffer ) )
+		line = buffer[bufferIter]
+		#buffer.remove(line)
+		
+		formatterParsed = False
+
+		for formatter in formatters:
+			if formatter == line:
+				continue
+			if formatter in line:
+				buffer.remove(line)
+				formatterParsed = True
+
+				splitLine = line.split( formatter )
+				splitLineWithFormatter = []
+
+				for item in splitLine:
+					if( item != '' ):
+						splitLineWithFormatter.append( item )
+					splitLineWithFormatter.append( formatter )
+				splitLineWithFormatter.pop()
+
+				#print(splitLine)
+				for token in reversed(splitLineWithFormatter):
+					buffer.insert( bufferIter, token )
+				bufferIter = bufferIter + len( splitLineWithFormatter )
+				break
+		
+		if( not( formatterParsed ) ):
+			bufferIter = bufferIter + 1
+
 def printBuffer( aBuffer ):
 	for line in aBuffer:
 		print(line)
@@ -102,10 +141,12 @@ readFileToBuffer(testFile)
 
 parseBufferForOperators( buffer )
 
-parseBufferForSeparators(buffer)
+parseBufferForSeparators( buffer )
+
+parseBufferForFormatters( buffer )
 
 print(buffer)
 
-l = "cows,"
-print(l.split('cows'))
-print(l.split('cows,'))
+# l = "cows,fdsa"
+# print(l.split('cows'))
+# print(l.split('cows,'))
