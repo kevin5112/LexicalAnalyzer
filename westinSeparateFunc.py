@@ -1,3 +1,7 @@
+#to run just enter the command "python westinSeparateFunc.py"
+#currently this implementation is hard coded to parse a text file with the relative path "inputTextFiles/sample2.txt"
+#as it is right now the program should separate the text file into individual lexemes, that are not identified yet
+
 import sys
 import re
 
