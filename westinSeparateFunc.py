@@ -1,43 +1,32 @@
-#to run just enter the command "python westinSeparateFunc.py"
-#currently this implementation is hard coded to parse a text file with the relative path "inputTextFiles/sample2.txt"
-#as it is right now the program should separate the text file into individual lexemes, that are not identified yet
-
 import sys
 import re
 
 comments = "!"
 keywords = ["int", "float", "bool", "true", "false", "if", "else", "then", "endif", "while", "whileend", "do", "doend", "for", "forend", "input", "output", "and", "or", "not"]
-separators = ["'", "(", ")", "{", "[", "[", "]", ",", ".", ":", ";", "sp"]
+separators = ["'", "(", ")", "{", "[", "[", "]", ",", ":", ";", "sp"]
 operators = ["*","+","-","=","/",">","<","%", "$"]
 formatters = ['\n', '\t']
-
-buffer = []
-lexedList = []
-
-testFile = "inputTextFiles/sample2.txt"
 
 #reads text file into buffer
 #in the future will probably need to read the file in batches to avoid memory buffer overload
 #for now it should be fine though
 
 #@param fileName - string of file name of text file to read in
-def readFileToBuffer(fileName):
+def readFileToBuffer(fileName, aBuffer):
 
 	with open(fileName, 'r') as file:
 		for line in file:
 			if comments not in line:
 				splitLine = line.split(' ')
 				for token in splitLine:
-					buffer.append(token)
+					aBuffer.append(token)
 
 #@param aBuffer - a buffer to parse. Buffer should contains tokens with operators in them
 # Function should separate the tokens by operators
 def parseBufferForOperators( aBuffer ):
 	bufferIter = 0
-	while( bufferIter != len( buffer ) ):
-		#print( len( buffer ) )
-		line = buffer[bufferIter]
-		#buffer.remove(line)
+	while( bufferIter != len( aBuffer ) ):
+		line = aBuffer[bufferIter]
 		
 		operatorParsed = False
 
@@ -45,7 +34,7 @@ def parseBufferForOperators( aBuffer ):
 			if operator == line:
 				continue
 			if operator in line:
-				buffer.remove(line)
+				aBuffer.remove(line)
 				operatorParsed = True
 
 				splitLine = line.split( operator )
@@ -57,10 +46,8 @@ def parseBufferForOperators( aBuffer ):
 					splitLineWithOperator.append( operator )
 				splitLineWithOperator.pop()
 
-				#print(splitLine)
 				for token in reversed(splitLineWithOperator):
-					buffer.insert( bufferIter, token )
-				#bufferIter = bufferIter + len( splitLineWithOperator )
+					aBuffer.insert( bufferIter, token )
 				break
 		
 		if( not( operatorParsed ) ):
@@ -70,10 +57,8 @@ def parseBufferForOperators( aBuffer ):
 # Function should separate the tokens by separator
 def parseBufferForSeparators( aBuffer ):
 	bufferIter = 0
-	while( bufferIter != len( buffer ) ):
-		#print( len( buffer ) )
-		line = buffer[bufferIter]
-		#buffer.remove(line)
+	while( bufferIter != len( aBuffer ) ):
+		line = aBuffer[bufferIter]
 		
 		separatorParsed = False
 
@@ -81,7 +66,7 @@ def parseBufferForSeparators( aBuffer ):
 			if separator == line:
 				continue
 			if separator in line:
-				buffer.remove(line)
+				aBuffer.remove(line)
 				separatorParsed = True
 
 				splitLine = line.split( separator )
@@ -93,10 +78,8 @@ def parseBufferForSeparators( aBuffer ):
 					splitLineWithSeparator.append( separator )
 				splitLineWithSeparator.pop()
 
-				#print(splitLine)
 				for token in reversed(splitLineWithSeparator):
-					buffer.insert( bufferIter, token )
-				bufferIter = bufferIter + len( splitLineWithSeparator )
+					aBuffer.insert( bufferIter, token )
 				break
 		
 		if( not( separatorParsed ) ):
@@ -104,10 +87,8 @@ def parseBufferForSeparators( aBuffer ):
 
 def parseBufferForFormatters( aBuffer ):
 	bufferIter = 0
-	while( bufferIter != len( buffer ) ):
-		#print( len( buffer ) )
-		line = buffer[bufferIter]
-		#buffer.remove(line)
+	while( bufferIter != len( aBuffer ) ):
+		line = aBuffer[bufferIter]
 		
 		formatterParsed = False
 
@@ -115,7 +96,7 @@ def parseBufferForFormatters( aBuffer ):
 			if formatter == line:
 				continue
 			if formatter in line:
-				buffer.remove(line)
+				aBuffer.remove(line)
 				formatterParsed = True
 
 				splitLine = line.split( formatter )
@@ -127,10 +108,8 @@ def parseBufferForFormatters( aBuffer ):
 					splitLineWithFormatter.append( formatter )
 				splitLineWithFormatter.pop()
 
-				#print(splitLine)
 				for token in reversed(splitLineWithFormatter):
-					buffer.insert( bufferIter, token )
-				bufferIter = bufferIter + len( splitLineWithFormatter )
+					aBuffer.insert( bufferIter, token )
 				break
 		
 		if( not( formatterParsed ) ):
@@ -141,16 +120,13 @@ def printBuffer( aBuffer ):
 		print(line)
 	print("========================")
 
-readFileToBuffer(testFile)
+#@param aFileName - filename of the file to parse
+#parses the given file and returns a buffer of the separated tokens
+def separateTokens(aFileName):
+	retBuffer = []
+	readFileToBuffer(aFileName, retBuffer)
+	parseBufferForOperators( retBuffer )
+	parseBufferForSeparators( retBuffer )
+	parseBufferForFormatters( retBuffer )
+	return retBuffer
 
-parseBufferForOperators( buffer )
-
-parseBufferForSeparators( buffer )
-
-parseBufferForFormatters( buffer )
-
-print(buffer)
-
-# l = "cows,fdsa"
-# print(l.split('cows'))
-# print(l.split('cows,'))
