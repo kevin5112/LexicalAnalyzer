@@ -82,10 +82,10 @@ def identifyKeywords(aToken):
             state = states[state][digits]
 
     if state in acceptedStates and temp in keywords:
-        print("identifier:", temp)
+        print("keywords:", temp)
         return  True
     else:
-        print("identifyKeywords: state was not in acceptedStates for token ", aToken)
+        # print("identifyKeywords: state was not in acceptedStates for token ", aToken)
         return False
 
 # @param aToken - token to identify. Token should be of type string
@@ -124,10 +124,10 @@ def identifyIdentifiers(aToken):
         elif not char.isalpha() and not char.isnumeric():
             state = states[state][symbol]
     if state in acceptedStates:
-        print("keywords:", aToken)
+        print("Identifiers:", aToken)
         return True
     else:
-        print("identifyIdentifiers: state was not in acceptedStates for token ", aToken)
+        # print("identifyIdentifiers: state was not in acceptedStates for token ", aToken)
         return False;
 
 # @param aToken - token to identify. Token should be of type string
@@ -163,7 +163,7 @@ def identifyOperators(aToken):
             print("operators:", aToken)
             return  True
     else:
-        print("identifyOperators: state was not in acceptedStates for token ", aToken)
+        # print("identifyOperators: state was not in acceptedStates for token ", aToken)
         return False
 
 # @param aToken - token to identify. Token should be of type string
@@ -205,30 +205,39 @@ def identifySeparators(aToken):
             print("separators:", aToken)
             return  True
     else:
-        print("identifySeparators: state was not in acceptedStates for token ", aToken)
+        # print("identifySeparators: state was not in acceptedStates for token ", aToken)
         return False
 
 
 l = separateTokens("inputTextFiles/sample2.txt")
+for i in l:
+    if identifyKeywords(i):
+        continue
+    elif identifyIdentifiers(i):
+        continue
+    elif identifyOperators(i):
+        continue
+    elif identifySeparators(i):
+        continue
 
 print(l)
-identifyKeywords("int")
-identifyKeywords("while")
-identifyKeywords("while3")
-identifyIdentifiers("ogabo23oga123")
-identifyIdentifiers("ogabo23oga123$")
-identifyIdentifiers("ogabo$23oga123")
-identifyIdentifiers("59gabo23oga123")
-identifyOperators("*")
-identifyOperators("abc")
-identifyOperators("**")
-identifyOperators("/")
-identifySeparators(";")
-identifySeparators("()")
-identifySeparators(")")
-identifySeparators("s[")
-identifySeparators("sp")
-identifySeparators(" sp")
+# identifyKeywords("int")
+# identifyKeywords("while")
+# identifyKeywords("while3")
+# identifyIdentifiers("ogabo23oga123")
+# identifyIdentifiers("ogabo23oga123$")
+# identifyIdentifiers("ogabo$23oga123")
+# identifyIdentifiers("59gabo23oga123")
+# identifyOperators("*")
+# identifyOperators("abc")
+# identifyOperators("**")
+# identifyOperators("/")
+# identifySeparators(";")
+# identifySeparators("()")
+# identifySeparators(")")
+# identifySeparators("s[")
+# identifySeparators("sp")
+# identifySeparators(" sp")
 
-print( identifyFloat( '.223' ) )
+# print( identifyFloat( '.223' ) )
 

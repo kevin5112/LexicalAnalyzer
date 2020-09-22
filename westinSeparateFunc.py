@@ -3,7 +3,7 @@ import re
 
 comments = "!"
 keywords = {"int", "float", "bool", "true", "false", "if", "else", "then", "endif", "while", "whileend", "do", "doend", "for", "forend", "input", "output", "and", "or", "not"}
-separators = {"'", "(", ")", "{", "[", "[", "]", ",", ":", ";", "sp"}
+separators = {"'", "(", ")", "{", "}", "[", "]", ",", ":", ";", "sp"}
 operators = {"*","+","-","=","/",">","<","%", "$"}
 formatters = ['\n', '\t']
 
