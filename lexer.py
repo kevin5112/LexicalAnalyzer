@@ -1,5 +1,7 @@
 from westinSeparateFunc import separateTokens
 from westinSeparateFunc import keywords
+from westinSeparateFunc import operators
+from westinSeparateFunc import separators
 
 #@param aToken - token to identify. Token should be of type string
 
@@ -128,6 +130,83 @@ def identifyIdentifiers(aToken):
         print("identifyIdentifiers: state was not in acceptedStates for token ", aToken)
         return False;
 
+# @param aToken - token to identify. Token should be of type string
+
+# identifies if token is a operator
+def identifyOperators(aToken):
+    if aToken == '':
+        return False
+
+    initialState = 0
+    acceptedStates = [1]
+    states = [
+        [2,2,1],
+        [2,2,2],
+        [2,2,2]
+    ]
+    letter = 0
+    digit = 1
+    symbol = 2
+    state = initialState
+    temp = ''
+    for char in aToken:
+        temp += char
+        if char.isalpha():
+            state = states[state][letter]
+        elif char.isnumeric():
+            state = states[state][digit]
+        elif not char.isnumeric() and not char.isalpha():
+            state = states[state][symbol]
+
+    if state in acceptedStates:
+        if temp in operators:
+            print("operators:", aToken)
+            return  True
+    else:
+        print("identifyOperators: state was not in acceptedStates for token ", aToken)
+        return False
+
+# @param aToken - token to identify. Token should be of type string
+
+# identifies if token is a separator
+def identifySeparators(aToken):
+    if aToken == '':
+        return False
+
+    initialState = 0
+    acceptedStates = [1]
+    states = [
+        [2,2,1],
+        [2,2,2],
+        [2,2,2]
+    ]
+    letter = 0
+    digit = 1
+    symbol = 2
+    state = initialState
+    temp = ''
+    epsilon = 1
+    for char in aToken:
+        temp += char
+        if char.isalpha():
+            if char == 's' and state == 0:
+                state = epsilon
+            elif char == 'p' and state == 1:
+                state = epsilon
+            else:
+                state = states[state][letter]
+        elif char.isnumeric():
+            state = states[state][digit]
+        elif not char.isnumeric() and not char.isalpha():
+            state = states[state][symbol]
+
+    if state in acceptedStates:
+        if temp in separators:
+            print("separators:", aToken)
+            return  True
+    else:
+        print("identifySeparators: state was not in acceptedStates for token ", aToken)
+        return False
 
 
 l = separateTokens("inputTextFiles/sample2.txt")
@@ -140,5 +219,16 @@ identifyIdentifiers("ogabo23oga123")
 identifyIdentifiers("ogabo23oga123$")
 identifyIdentifiers("ogabo$23oga123")
 identifyIdentifiers("59gabo23oga123")
+identifyOperators("*")
+identifyOperators("abc")
+identifyOperators("**")
+identifyOperators("/")
+identifySeparators(";")
+identifySeparators("()")
+identifySeparators(")")
+identifySeparators("s[")
+identifySeparators("sp")
+identifySeparators(" sp")
+
 print( identifyFloat( '.223' ) )
 
