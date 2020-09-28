@@ -13,8 +13,11 @@ def main():
     except FileNotFoundError:
         print("invalid file... will use default file\n")
         lexicalAnalyze(directory + inFile)
-    #lexicalAnalyze("inputTextFiles/sample1.txt")
 
+# @param file - file to do the lexical analysis on
+
+# this function will handle the meat of the operation
+# for the lexical analyzer
 def lexicalAnalyze(file):
     parsedOutFile = separateTokens(file)
     outputFile = open( 'output.txt', 'w' )
@@ -99,11 +102,7 @@ def lexicalAnalyze(file):
             outputFile.write( lexeme )
             outputFile.write( '\n' )
 
-
         outputFile.close()
-
-def printToken(type, aToken):
-    print(type + '\t=\t' + aToken)
 
 #@param aToken - token to identify. Token should be of type string
 
@@ -184,8 +183,6 @@ def identifyKeywords(aToken):
             state = states[state][digits]
 
     if state in acceptedStates and temp in keywords:
-        # print("keywords:", temp)
-        printToken("KEYWORDS", aToken)
         return  True
     else:
         # print("identifyKeywords: state was not in acceptedStates for token ", aToken)
@@ -222,8 +219,6 @@ def identifyIdentifiers(aToken):
         elif not char.isalpha() and not char.isnumeric():
             state = states[state][symbol]
     if state in acceptedStates:
-        # print("Identifiers:", aToken)
-        printToken("IDENTIFIERS", aToken)
         return True
     else:
         # print("identifyIdentifiers: state was not in acceptedStates for token ", aToken)
@@ -259,11 +254,8 @@ def identifyOperators(aToken):
 
     if state in acceptedStates:
         if temp in operators:
-            # print("operators:", aToken)
-            printToken("OPERATORS", aToken)
             return  True
     else:
-        # print("identifyOperators: state was not in acceptedStates for token ", aToken)
         return False
 
 # @param aToken - token to identify. Token should be of type string
@@ -299,38 +291,9 @@ def identifySeparators(aToken):
 
     if state in acceptedStates:
         if temp in separators:
-            # print("separators:", aToken)
-            printToken("SEPARATORS", aToken)
             return  True
     else:
-        # print("identifySeparators: state was not in acceptedStates for token ", aToken)
         return False
-
-
-
 
 if __name__ == "__main__":
     main()
-
-
-# print(l)
-# identifyKeywords("int")
-# identifyKeywords("while")
-# identifyKeywords("while3")
-# identifyIdentifiers("ogabo23oga123")
-# identifyIdentifiers("ogabo23oga123$")
-# identifyIdentifiers("ogabo$23oga123")
-# identifyIdentifiers("59gabo23oga123")
-# identifyOperators("*")
-# identifyOperators("abc")
-# identifyOperators("**")
-# identifyOperators("/")
-# identifySeparators(";")
-# identifySeparators("()")
-# identifySeparators(")")
-# identifySeparators("s[")
-# identifySeparators("sp")
-# identifySeparators(" sp")
-
-# print( identifyFloat( '.223' ) )
-
