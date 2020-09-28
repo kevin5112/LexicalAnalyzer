@@ -1,9 +1,7 @@
-from westinSeparateFunc import separateTokens
-from westinSeparateFunc import keywords
-from westinSeparateFunc import operators
-from westinSeparateFunc import separators
-import sys
-import re
+from parser import separateTokens
+from parser import keywords
+from parser import operators
+from parser import separators
 
 def main():
     # specify the input file needed for this program
