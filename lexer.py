@@ -177,25 +177,22 @@ def identifySeparators(aToken):
     initialState = 0
     acceptedStates = [1]
     states = [
-        [2,2,1],
-        [2,2,2],
-        [2,2,2]
+        [2,2,1,1],
+        [2,2,2,2],
+        [2,2,2,2]
     ]
     letter = 0
     digit = 1
     symbol = 2
+    spce = 3
     state = initialState
     temp = ''
-    epsilon = 1
     for char in aToken:
         temp += char
         if char.isalpha():
-            if char == 's' and state == 0:
-                state = epsilon
-            elif char == 'p' and state == 1:
-                state = epsilon
-            else:
-                state = states[state][letter]
+            state = states[state][letter]
+        elif char == ' ':
+            state = states[state][spce]
         elif char.isnumeric():
             state = states[state][digit]
         elif not char.isnumeric() and not char.isalpha():
@@ -223,7 +220,7 @@ for i in l:
     elif identifySeparators(i):
         continue
 
-print(l)
+# print(l)
 # identifyKeywords("int")
 # identifyKeywords("while")
 # identifyKeywords("while3")
