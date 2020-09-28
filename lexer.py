@@ -3,6 +3,9 @@ from westinSeparateFunc import keywords
 from westinSeparateFunc import operators
 from westinSeparateFunc import separators
 
+def printToken(type, aToken):
+    print(type + '\t=\t' + aToken)
+
 #@param aToken - token to identify. Token should be of type string
 
 #Identifies a token string and returns if it is a valid integer or not
@@ -82,7 +85,8 @@ def identifyKeywords(aToken):
             state = states[state][digits]
 
     if state in acceptedStates and temp in keywords:
-        print("keywords:", temp)
+        # print("keywords:", temp)
+        printToken("KEYWORDS", aToken)
         return  True
     else:
         # print("identifyKeywords: state was not in acceptedStates for token ", aToken)
@@ -96,17 +100,16 @@ def identifyIdentifiers(aToken):
         return False
 
     initialState = 0
-    acceptedStates = [1,2]
+    acceptedStates = [1]
     states = [
-        [1,3,3],
-        [1,1,3],
-        [3,3,3],
-        [3,3,3]
+        [1,2,2,2],
+        [1,1,2,1],
+        [2,2,2,2]
     ]
     letter = 0
     digit = 1
     symbol = 2
-    epsilon = 2 # special case, make row = epsilon
+    dollarSign = 3
     state = initialState
     temp = ''
     for char in aToken:
@@ -114,17 +117,14 @@ def identifyIdentifiers(aToken):
         if char.isalpha():
             state = states[state][letter]
         elif char == '$':
-            # we check for this to see if we were already in an epsilon state
-            if state == epsilon:
-                state = states[state][epsilon]
-            else:
-                state = epsilon
+            state = states[state][dollarSign]
         elif char.isnumeric():
             state = states[state][digit]
         elif not char.isalpha() and not char.isnumeric():
             state = states[state][symbol]
     if state in acceptedStates:
-        print("Identifiers:", aToken)
+        # print("Identifiers:", aToken)
+        printToken("IDENTIFIERS", aToken)
         return True
     else:
         # print("identifyIdentifiers: state was not in acceptedStates for token ", aToken)
@@ -160,7 +160,8 @@ def identifyOperators(aToken):
 
     if state in acceptedStates:
         if temp in operators:
-            print("operators:", aToken)
+            # print("operators:", aToken)
+            printToken("OPERATORS", aToken)
             return  True
     else:
         # print("identifyOperators: state was not in acceptedStates for token ", aToken)
@@ -202,7 +203,8 @@ def identifySeparators(aToken):
 
     if state in acceptedStates:
         if temp in separators:
-            print("separators:", aToken)
+            # print("separators:", aToken)
+            printToken("SEPARATORS", aToken)
             return  True
     else:
         # print("identifySeparators: state was not in acceptedStates for token ", aToken)
@@ -210,6 +212,7 @@ def identifySeparators(aToken):
 
 
 l = separateTokens("inputTextFiles/sample2.txt")
+print("TOKENS\t\t\tLexemes\n")
 for i in l:
     if identifyKeywords(i):
         continue
