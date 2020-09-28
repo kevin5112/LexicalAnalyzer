@@ -2,6 +2,32 @@ from westinSeparateFunc import separateTokens
 from westinSeparateFunc import keywords
 from westinSeparateFunc import operators
 from westinSeparateFunc import separators
+import sys
+import re
+
+def main():
+    # specify the input file needed for this program
+    directory = "inputTextFiles/"
+    inFile = "sample2.txt"
+    try:
+        userFile = input("input filename here(will draw from inputTextFiles directory): ")
+        lexicalAnalyze(directory + userFile)
+    except FileNotFoundError:
+        print("invalid file... will use default file\n")
+        lexicalAnalyze(directory + inFile)
+
+def lexicalAnalyze(file):
+    parsedOutFile = separateTokens(file)
+    print("TOKENS\t\t\tLexemes\n")
+    for i in parsedOutFile:
+        if identifyKeywords(i):
+            continue
+        elif identifyIdentifiers(i):
+            continue
+        elif identifyOperators(i):
+            continue
+        elif identifySeparators(i):
+            continue
 
 def printToken(type, aToken):
     print(type + '\t=\t' + aToken)
@@ -208,17 +234,11 @@ def identifySeparators(aToken):
         return False
 
 
-l = separateTokens("inputTextFiles/sample2.txt")
-print("TOKENS\t\t\tLexemes\n")
-for i in l:
-    if identifyKeywords(i):
-        continue
-    elif identifyIdentifiers(i):
-        continue
-    elif identifyOperators(i):
-        continue
-    elif identifySeparators(i):
-        continue
+
+
+if __name__ == "__main__":
+    main()
+
 
 # print(l)
 # identifyKeywords("int")
