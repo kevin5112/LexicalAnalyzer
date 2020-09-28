@@ -5,27 +5,90 @@ from parser import separators
 
 def main():
     # specify the input file needed for this program
-    directory = "inputTextFiles/"
-    inFile = "sample2.txt"
-    try:
-        userFile = input("input filename here(will draw from inputTextFiles directory): ")
-        lexicalAnalyze(directory + userFile)
-    except FileNotFoundError:
-        print("invalid file... will use default file\n")
-        lexicalAnalyze(directory + inFile)
+    # directory = "inputTextFiles/"
+    # inFile = "sample2.txt"
+    # try:
+    #     userFile = input("input filename here(will draw from inputTextFiles directory): ")
+    #     print(userFile)
+    #     lexicalAnalyze(directory + userFile)
+    # except FileNotFoundError:
+    #     print("invalid file... will use default file\n")
+    #     lexicalAnalyze(directory + inFile)
+    lexicalAnalyze("inputTextFiles/sample2.txt")
 
 def lexicalAnalyze(file):
     parsedOutFile = separateTokens(file)
-    print("TOKENS\t\t\tLexemes\n")
-    for i in parsedOutFile:
-        if identifyKeywords(i):
+    outputFile = open( 'output.txt', 'w' )
+    outputFile.write("TOKENS\t\t\tLexemes\n\n")
+    afterEqualSignSpaces = 10
+    for lexeme in parsedOutFile:
+        print("LEXEME IN QUESTION: " + lexeme)
+        equalSignSpaces = 20
+        if identifyKeywords( lexeme ):
+            outputFile.write( 'KEYWORD' )
+            equalSignSpaces = equalSignSpaces - len( 'KEYWORD' )
+            outputFile.write( '=' )
+            for _ in range( afterEqualSignSpaces ):
+                outputFile.write(' ')
+            outputFile.write( lexeme )
+            outputFile.write( '\n' )
             continue
-        elif identifyIdentifiers(i):
+        elif identifyIdentifiers( lexeme ):
+            outputFile.write( 'IDENTIFIER' )
+            equalSignSpaces = equalSignSpaces - len( 'IDENTIFIER' )
+            outputFile.write( '=' )
+            for _ in range( afterEqualSignSpaces ):
+                outputFile.write(' ')
+            outputFile.write( lexeme )
+            outputFile.write( '\n' )
             continue
-        elif identifyOperators(i):
+        elif identifyOperators( lexeme ):
+            outputFile.write( 'OPERATOR' )
+            equalSignSpaces = equalSignSpaces - len( 'OPERATOR' )
+            outputFile.write( '=' )
+            for _ in range( afterEqualSignSpaces ):
+                outputFile.write(' ')
+            outputFile.write( lexeme )
+            outputFile.write( '\n' )
             continue
-        elif identifySeparators(i):
+        elif identifySeparators( lexeme ):
+            outputFile.write( 'SEPARATOR' )
+            equalSignSpaces = equalSignSpaces - len( 'SEPARATOR' )
+            outputFile.write( '=' )
+            for _ in range( afterEqualSignSpaces ):
+                outputFile.write(' ')
+            outputFile.write( lexeme )
+            outputFile.write( '\n' )
             continue
+        elif identifyFloat( lexeme ):
+            outputFile.write( 'FLOAT' )
+            equalSignSpaces = equalSignSpaces - len( 'FLOAT' )
+            outputFile.write( '=' )
+            for _ in range( afterEqualSignSpaces ):
+                outputFile.write(' ')
+            outputFile.write( lexeme )
+            outputFile.write( '\n' )
+            continue
+        elif identifyInteger( lexeme ):
+            outputFile.write( 'INTEGER' )
+            equalSignSpaces = equalSignSpaces - len( 'INTEGER' )
+            outputFile.write( '=' )
+            for _ in range( afterEqualSignSpaces ):
+                outputFile.write(' ')
+            outputFile.write( lexeme )
+            outputFile.write( '\n' )
+            continue
+        else:
+            outputFile.write( 'INVALID' )
+            equalSignSpaces = equalSignSpaces - len( 'INVALID' )
+            outputFile.write( '=' )
+            for _ in range( afterEqualSignSpaces ):
+                outputFile.write(' ')
+            outputFile.write( lexeme )
+            outputFile.write( '\n' )
+
+
+        outputFile.close()
 
 def printToken(type, aToken):
     print(type + '\t=\t' + aToken)
@@ -152,7 +215,7 @@ def identifyIdentifiers(aToken):
         return True
     else:
         # print("identifyIdentifiers: state was not in acceptedStates for token ", aToken)
-        return False;
+        return False
 
 # @param aToken - token to identify. Token should be of type string
 
