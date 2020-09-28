@@ -5,28 +5,30 @@ from parser import separators
 
 def main():
     # specify the input file needed for this program
-    # directory = "inputTextFiles/"
-    # inFile = "sample2.txt"
-    # try:
-    #     userFile = input("input filename here(will draw from inputTextFiles directory): ")
-    #     print(userFile)
-    #     lexicalAnalyze(directory + userFile)
-    # except FileNotFoundError:
-    #     print("invalid file... will use default file\n")
-    #     lexicalAnalyze(directory + inFile)
-    lexicalAnalyze("inputTextFiles/sample2.txt")
+    directory = "inputTextFiles/"
+    inFile = "sample2.txt"
+    try:
+        userFile = input("input filename here(will draw from inputTextFiles directory): ")
+        lexicalAnalyze(directory + userFile)
+    except FileNotFoundError:
+        print("invalid file... will use default file\n")
+        lexicalAnalyze(directory + inFile)
+    #lexicalAnalyze("inputTextFiles/sample1.txt")
 
 def lexicalAnalyze(file):
     parsedOutFile = separateTokens(file)
     outputFile = open( 'output.txt', 'w' )
-    outputFile.write("TOKENS\t\t\tLexemes\n\n")
+    outputFile.write("TOKENS\t\t\t\t\t\tLEXEMES\n\n")
     afterEqualSignSpaces = 10
     for lexeme in parsedOutFile:
-        print("LEXEME IN QUESTION: " + lexeme)
+        if( lexeme == '\n' or lexeme == '\t' ):
+            continue
         equalSignSpaces = 20
         if identifyKeywords( lexeme ):
             outputFile.write( 'KEYWORD' )
             equalSignSpaces = equalSignSpaces - len( 'KEYWORD' )
+            for _ in range( equalSignSpaces ):
+                outputFile.write(' ')
             outputFile.write( '=' )
             for _ in range( afterEqualSignSpaces ):
                 outputFile.write(' ')
@@ -36,6 +38,8 @@ def lexicalAnalyze(file):
         elif identifyIdentifiers( lexeme ):
             outputFile.write( 'IDENTIFIER' )
             equalSignSpaces = equalSignSpaces - len( 'IDENTIFIER' )
+            for _ in range( equalSignSpaces ):
+                outputFile.write(' ')
             outputFile.write( '=' )
             for _ in range( afterEqualSignSpaces ):
                 outputFile.write(' ')
@@ -45,6 +49,8 @@ def lexicalAnalyze(file):
         elif identifyOperators( lexeme ):
             outputFile.write( 'OPERATOR' )
             equalSignSpaces = equalSignSpaces - len( 'OPERATOR' )
+            for _ in range( equalSignSpaces ):
+                outputFile.write(' ')
             outputFile.write( '=' )
             for _ in range( afterEqualSignSpaces ):
                 outputFile.write(' ')
@@ -54,6 +60,8 @@ def lexicalAnalyze(file):
         elif identifySeparators( lexeme ):
             outputFile.write( 'SEPARATOR' )
             equalSignSpaces = equalSignSpaces - len( 'SEPARATOR' )
+            for _ in range( equalSignSpaces ):
+                outputFile.write(' ')
             outputFile.write( '=' )
             for _ in range( afterEqualSignSpaces ):
                 outputFile.write(' ')
@@ -63,6 +71,8 @@ def lexicalAnalyze(file):
         elif identifyFloat( lexeme ):
             outputFile.write( 'FLOAT' )
             equalSignSpaces = equalSignSpaces - len( 'FLOAT' )
+            for _ in range( equalSignSpaces ):
+                outputFile.write(' ')
             outputFile.write( '=' )
             for _ in range( afterEqualSignSpaces ):
                 outputFile.write(' ')
@@ -72,6 +82,8 @@ def lexicalAnalyze(file):
         elif identifyInteger( lexeme ):
             outputFile.write( 'INTEGER' )
             equalSignSpaces = equalSignSpaces - len( 'INTEGER' )
+            for _ in range( equalSignSpaces ):
+                outputFile.write(' ')
             outputFile.write( '=' )
             for _ in range( afterEqualSignSpaces ):
                 outputFile.write(' ')
