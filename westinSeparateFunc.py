@@ -2,10 +2,10 @@ import sys
 import re
 
 comments = "!"
-keywords = ["int", "float", "bool", "true", "false", "if", "else", "then", "endif", "while", "whileend", "do", "doend", "for", "forend", "input", "output", "and", "or", "not"]
-separators = ["'", "(", ")", "{", "[", "[", "]", ",", ":", ";", "sp"]
-operators = ["*","+","-","=","/",">","<","%", "$"]
-formatters = ['\n', '\t']
+keywords = {"int", "float", "bool", "true", "false", "if", "else", "then", "endif", "while", "whileend", "do", "doend", "for", "forend", "input", "output", "and", "or", "not"}
+separators = {"'", "(", ")", "{", "}", "[", "]", ",", ":", ";", "sp"}
+operators = {"*","+","-","=","/",">","<","%"}
+formatters = {'\n', '\t'}
 
 #reads text file into buffer
 #in the future will probably need to read the file in batches to avoid memory buffer overload
