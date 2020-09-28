@@ -113,7 +113,7 @@ def identifyInteger( aToken ):
 
     states = [
         [0,1],      #State 0: Integer 
-        [1,1]       #State 1: Not an Integer 
+        [1,1],      #State 1: Not an Integer 
         [0,1]       #State 2: Initial State
     ]             
     initialState = 2    
