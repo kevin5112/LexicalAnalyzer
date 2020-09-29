@@ -1,7 +1,7 @@
-from parser import separateTokens
-from parser import keywords
-from parser import operators
-from parser import separators
+from bufferParser import separateTokens
+from bufferParser import keywords
+from bufferParser import operators
+from bufferParser import separators
 
 def main():
     # specify the input file needed for this program
