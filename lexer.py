@@ -186,7 +186,6 @@ def identifyKeywords(aToken):
     if state in acceptedStates and temp in keywords:
         return  True
     else:
-        # print("identifyKeywords: state was not in acceptedStates for token ", aToken)
         return False
 
 # @param aToken - token to identify. Token should be of type string
@@ -222,7 +221,6 @@ def identifyIdentifiers(aToken):
     if state in acceptedStates:
         return True
     else:
-        # print("identifyIdentifiers: state was not in acceptedStates for token ", aToken)
         return False
 
 # @param aToken - token to identify. Token should be of type string
